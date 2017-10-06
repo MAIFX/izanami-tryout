@@ -14,7 +14,7 @@ Izanami is an awesome shared config / feature / AB testing service built in scal
 
 ## Build the container
 
-```
+```zsh
 git clone https://github.com/MAIFX/izanami-tryout.git --depth=1
 # go to your cloned izanami tryout folder
 cd ./izanami-tryout/
@@ -24,7 +24,7 @@ docker build -t izanami .
 
 ## Run default
 
-```
+```zsh
 export IZANAMI_PORT=8080
 
 docker run -p "$IZANAMI_PORT:8080" -d izanami
@@ -37,7 +37,7 @@ Enjoy :)
 
 ## Run with Redis
 
-```
+```zsh
 export IZANAMI_PORT=8080
 
 # First run the redis container
