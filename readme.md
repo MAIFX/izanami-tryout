@@ -4,7 +4,7 @@ What you will need :
 
 * docker
 * git
-* 5 minutes of free time
+* 5 minutes of your time
 
 # The elevator pitch
 
