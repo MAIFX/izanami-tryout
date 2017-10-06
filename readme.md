@@ -33,6 +33,8 @@ docker run -p "$IZANAMI_PORT:8080" -d izanami
 
 Then open your favorite browser and go to http://localhost:8080
 
+You can login with admin/admin1234 
+
 Enjoy :)
 
 ## Run with Redis
@@ -51,7 +53,7 @@ docker run --link redis:redis -e IZANAMI_DATABASE=Redis -p "$IZANAMI_PORT:8080" 
 
 ## Run with cassandra
 
-```
+```zsh
 export IZANAMI_PORT=8080
 
 # First run the redis container
@@ -61,6 +63,8 @@ docker run -d --name cassandra -e CASSANDRA_LISTEN_ADDRESS=localhost cassandra
 # We need to link izanami to redis and pass the env IZANAMI_DATABASE=Redis
 docker run --link cassandra:cassandra -e IZANAMI_DATABASE=Cassandra -p "$IZANAMI_PORT:8080" -d izanami
 ```
+
+
 
 
 # But I don't want to use Docker
