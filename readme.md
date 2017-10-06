@@ -1,14 +1,18 @@
 # Try Izanami in 5 minutes
 
-what you will need :
+What you will need :
 
-docker
-git
-5 minutes of free time
+* docker
+* git
+* 5 minutes of free time
 
 # The elevator pitch
 
-Izanami is an awesome shared config / feature / AB testing service built in scala that can improve easily the business of your product.
+Izanami is a shared configuration service well-suited for micro-service architecture implementation. In addition to shared configuration, Izanami provides feature flipping and A/B Testing. Izanami provides a UI to allow non-tech users to toggle features and to handle A/B testing.
+
+Izanami also provides first class integration. We provide Java, Scala, Node and React clients to integrate with your apps. We also provide webhook integration.
+
+Want more? go to https://www.opunmaif.fr/#izanami
 
 # Use it
 
@@ -33,7 +37,7 @@ docker run -p "$IZANAMI_PORT:8080" -d izanami
 
 Then open your favorite browser and go to http://localhost:8080
 
-You can login with admin/admin1234 
+You can login with admin/admin1234
 
 Enjoy :)
 
@@ -73,12 +77,14 @@ Yeah, I understand :)
 
 if you have a JDK 8 installed, you can do the following
 
+```zsh
 git clone https://github.com/MAIFX/izanami-tryout.git --depth=1
 cd ./izanami-tryout/
 unzip opun-izanami-1.0.0-SNAPSHOT.zip
 cd opun-izanami-1.0.0-SNAPSHOT
 ./bin/opun-izanami -Dconfig.file=./conf/docker.conf -Dlogger.file=./conf/prod-logger.xml
+```
 
 # But it doesn't work :'(
 
-please create issues if your encounter any problem or if you have questions
+Please create issues if your encounter any problem or if you have questions
