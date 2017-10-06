@@ -5,6 +5,12 @@ MAINTAINER MAIFX Team <maifx@maif.fr>
 
 ENV APP_NAME opun-izanami
 ENV APP_VERSION 1.0.0-SNAPSHOT
+ENV REDIS_PORT 6379
+ENV REDIS_HOST redis
+ENV CASSANDRA_HOST cassandra
+ENV CASSANDRA_PORT 9042
+ENV CASSANDRA_REPLICATION_FACTOR 1
+ENV CASSANDRA_KEYSPACE izanami
 
 RUN mkdir -p /usr/app/src && mkdir -p /usr/app/dist
 
@@ -12,7 +18,7 @@ COPY . /usr/app/src
 
 WORKDIR /usr/app/src
 
-RUN unzip ./universal/${APP_NAME}-${APP_VERSION}.zip -d /usr/app/dist \
+RUN unzip ./${APP_NAME}-${APP_VERSION}.zip -d /usr/app/dist \
   && chmod +x /usr/app/dist/${APP_NAME}-${APP_VERSION}/bin/${APP_NAME} \
   && mv ./entrypoint.sh /usr/app/dist/${APP_NAME}-${APP_VERSION} \
   && chmod +x /usr/app/dist/${APP_NAME}-${APP_VERSION}/entrypoint.sh

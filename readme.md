@@ -12,14 +12,21 @@ Izanami is an awesome shared config / feature / AB testing service built in scal
 
 # Use it
 
-```
-export IZANAMI_PORT=8080
+## Build the container
 
+```
 git clone https://github.com/MAIFX/izanami-tryout.git --depth=1
 # go to your cloned izanami tryout folder
 cd ./izanami-tryout/
 # then build and run the docker image
 docker build -t izanami .
+```
+
+## Run default
+
+```
+export IZANAMI_PORT=8080
+
 docker run -p "$IZANAMI_PORT:8080" -d izanami
 # you can run 'docker logs xxxxx -f' to follow Izanami logs
 ```
@@ -27,6 +34,34 @@ docker run -p "$IZANAMI_PORT:8080" -d izanami
 Then open your favorite browser and go to http://localhost:8080
 
 Enjoy :)
+
+## Run with Redis
+
+```
+export IZANAMI_PORT=8080
+
+# First run the redis container
+docker run -d --name redis redis
+
+# Run izanami.
+# We need to link izanami to redis and pass the env IZANAMI_DATABASE=Redis
+docker run --link redis:redis -e IZANAMI_DATABASE=Redis -p "$IZANAMI_PORT:8080" -d izanami
+```
+
+
+## Run with cassandra
+
+```
+export IZANAMI_PORT=8080
+
+# First run the redis container
+docker run -d --name cassandra -e CASSANDRA_LISTEN_ADDRESS=localhost cassandra
+
+# Run izanami.
+# We need to link izanami to redis and pass the env IZANAMI_DATABASE=Redis
+docker run --link cassandra:cassandra -e IZANAMI_DATABASE=Cassandra -p "$IZANAMI_PORT:8080" -d izanami
+```
+
 
 # But I don't want to use Docker
 
