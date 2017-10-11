@@ -4,7 +4,7 @@ What you will need :
 
 * docker
 * git
-* 5 minutes of free time
+* 5 minutes of your time
 
 # The elevator pitch
 
@@ -29,9 +29,8 @@ docker build -t izanami .
 ## Run default
 
 ```zsh
-export IZANAMI_PORT=8080
 
-docker run -p "$IZANAMI_PORT:8080" -d izanami
+docker run -p "8080:8080" -d izanami
 # you can run 'docker logs xxxxx -f' to follow Izanami logs
 ```
 
@@ -44,14 +43,12 @@ Enjoy :)
 ## Run with Redis
 
 ```zsh
-export IZANAMI_PORT=8080
-
 # First run the redis container
 docker run -d --name redis redis
 
 # Run izanami.
 # We need to link izanami to redis and pass the env IZANAMI_DATABASE=Redis
-docker run --link redis:redis -e IZANAMI_DATABASE=Redis -p "$IZANAMI_PORT:8080" -d izanami
+docker run --link redis:redis -e IZANAMI_DATABASE=Redis -e IZANAMI_EVENT_STORE=Redis -p "8080:8080" -d izanami
 ```
 
 
@@ -60,15 +57,62 @@ docker run --link redis:redis -e IZANAMI_DATABASE=Redis -p "$IZANAMI_PORT:8080" 
 ```zsh
 export IZANAMI_PORT=8080
 
-# First run the redis container
+# First run the cassandra container
 docker run -d --name cassandra -e CASSANDRA_LISTEN_ADDRESS=localhost cassandra
 
 # Run izanami.
-# We need to link izanami to redis and pass the env IZANAMI_DATABASE=Redis
+# We need to link izanami to redis and pass the env IZANAMI_DATABASE=Cassandra
 docker run --link cassandra:cassandra -e IZANAMI_DATABASE=Cassandra -p "$IZANAMI_PORT:8080" -d izanami
 ```
 
 
+## Configure distributed events
+
+If you have to run multiple instance of izanami, you have to share the events between instances.
+You can use redis pub/sub, kafka or akka cluster.
+
+### Akka distributed pub sub
+
+```zsh
+export IZANAMI_PORT=8080
+
+# First run the cassandra container
+docker run -d --name cassandra -e CASSANDRA_LISTEN_ADDRESS=localhost cassandra
+
+# Run izanami instance 1.
+
+docker run --name izanami --link cassandra:cassandra -e IZANAMI_DATABASE=Cassandra -e IZANAMI_EVENT_STORE=Distributed -p "8080:8080" -d izanami
+
+# Run izanami instance 2.
+
+docker run --name izanami2 --link cassandra:cassandra -e IZANAMI_DATABASE=Cassandra --link izanami:izanami -e IZANAMI_EVENT_STORE=Distributed -p "8081:8080" -d izanami
+
+```
+
+### Redis
+
+```zsh
+# First run the redis container
+docker run -d --name redis redis
+
+# Run izanami.
+# We need to link izanami to redis and pass the env IZANAMI_DATABASE=Redis
+docker run --link redis:redis -e IZANAMI_DATABASE=Redis -e IZANAMI_EVENT_STORE=Redis -p "8080:8080" -d izanami
+```
+
+### Kafka
+```zsh
+# First run the kafka container
+docker run --name kafka -d spotify/kafka
+
+# Then run the kafka container
+docker run -d --name cassandra cassandra
+
+# Run izanami instance 1.
+
+docker run --link cassandra:cassandra --link kafka:spotify/kafka -e IZANAMI_DATABASE=Cassandra -e IZANAMI_EVENT_STORE=Kafka  -p "8080:8080" -d izanami
+
+```
 
 
 # But I don't want to use Docker
