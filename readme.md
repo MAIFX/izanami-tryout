@@ -104,11 +104,10 @@ docker run --link redis:redis -e IZANAMI_DATABASE=Redis -e IZANAMI_EVENT_STORE=R
 # First run the kafka container
 docker run --name kafka -d spotify/kafka
 
-# Then run the kafka container
+# Then run the cassandra container
 docker run -d --name cassandra cassandra
 
-# Run izanami instance 1.
-
+# Run izanami instance
 docker run --link cassandra:cassandra --link kafka:spotify/kafka -e IZANAMI_DATABASE=Cassandra -e IZANAMI_EVENT_STORE=Kafka  -p "8080:8080" -d izanami
 
 ```
