@@ -61,7 +61,7 @@ export IZANAMI_PORT=8080
 docker run -d --name cassandra -e CASSANDRA_LISTEN_ADDRESS=localhost cassandra
 
 # Run izanami.
-# We need to link izanami to redis and pass the env IZANAMI_DATABASE=Cassandra
+# We need to link izanami to cassandra and pass the env IZANAMI_DATABASE=Cassandra
 docker run --link cassandra:cassandra -e IZANAMI_DATABASE=Cassandra -p "$IZANAMI_PORT:8080" -d izanami
 ```
 
@@ -96,7 +96,6 @@ docker run --name izanami2 --link cassandra:cassandra -e IZANAMI_DATABASE=Cassan
 docker run -d --name redis redis
 
 # Run izanami.
-# We need to link izanami to redis and pass the env IZANAMI_DATABASE=Redis
 docker run --link redis:redis -e IZANAMI_DATABASE=Redis -e IZANAMI_EVENT_STORE=Redis -p "8080:8080" -d izanami
 ```
 
